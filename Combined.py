@@ -26,7 +26,7 @@ def forward(self, x):
     x = self.fc3(x)
     return F.log_softmax(x)
 
-net = Net()
+net = Net()  #create instance of the network
 
 # how the data is understood, what is what in the files
 class VolFracDataset(T.utils.data.Dataset):
