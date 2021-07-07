@@ -26,6 +26,7 @@ def forward(self, x):
     x = self.fc3(x)
     return F.log_softmax(x)
 
+net = Net()
 
 # how the data is understood, what is what in the files
 class VolFracDataset(T.utils.data.Dataset):
@@ -57,7 +58,7 @@ def main():
     train_ldr = T.utils.data.DataLoader(train_ds, batch_size=3, shuffle=True)
     
     #set up for the training to create optimizer and a loss function.
-    optimizer = optim.SGD(Net.parameters(), lr=0.01, momentum=0.9)
+    optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
     criterion = nn.NLLLoss()
     
     
