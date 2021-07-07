@@ -57,7 +57,7 @@ def main():
     train_ldr = T.utils.data.DataLoader(train_ds, batch_size=3, shuffle=True)
     
     #set up for the training to create optimizer and a loss function.
-    optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
+    optimizer = optim.SGD(Net.parameters(), lr=0.01, momentum=0.9)
     criterion = nn.NLLLoss()
     
     
