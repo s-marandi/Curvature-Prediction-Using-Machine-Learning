@@ -55,7 +55,12 @@ def main():
     # Instantiate the class
     train_ds = VolFracDataset(train_file)
     train_ldr = T.utils.data.DataLoader(train_ds, batch_size=3, shuffle=True)
-
+    
+    #set up for the training to create optimizer and a loss function.
+    optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=0.9)
+    criterion = nn.NLLLoss()
+    
+    
     for epoch in range(2):
         print("\n==============================\n")
         print("Epoch = " + str(epoch))
