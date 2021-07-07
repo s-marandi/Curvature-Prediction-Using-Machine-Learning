@@ -10,7 +10,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-# DR. KONERU
 device = T.device("cpu")
 # connecting the layers of the diagram, connected neural network layer is represented by the nn.Linear object
 class Net(nn.Module):
