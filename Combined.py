@@ -59,7 +59,7 @@ def main():
     
     #set up for the training to create optimizer and a loss function.
     optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
-    criterion = nn.NLLLoss()
+    criterion = nn.NLLLoss() 
     
     
     for epoch in range(2):
@@ -67,7 +67,12 @@ def main():
         print("Epoch = " + str(epoch))
         for (batch_idx, batch) in enumerate(train_ldr):
             print("\nBatch = " + str(batch_idx))
-            X = batch['f']
-            Y = batch['hk']
+            X = batch['f'] #inputs
+            Y = batch['hk'] #output
+            optimizer.zero_grad()
+            net_out = net(X) #pass input data batch into model (forward()called)
+            loss = criterion(net_out,Y) #negative log loss between input/output
+            loss.backward() #back propagation 
+            optimizer.step() # gradient decent 
             print(batch_idx)
             print(Y)
