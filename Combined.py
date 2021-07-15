@@ -29,6 +29,7 @@ class Net(nn.Module):
 
   #create instance of the network
 
+
 # how the data is understood, what is what in the files
 class VolFracDataset(T.utils.data.Dataset):
     def __init__(self, src_file):
