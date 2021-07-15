@@ -56,14 +56,14 @@ def main():
     train_file = "ShortTestFile.txt"
     # Instantiate the class
     train_ds = VolFracDataset(train_file)
-    train_ldr = T.utils.data.DataLoader(train_ds, batch_size=2, shuffle=True)
+    train_ldr = T.utils.data.DataLoader(train_ds, batch_size=3, shuffle=True)
     
     #set up for the training to create optimizer and a loss function.
     optimizer = torch.optim.Adam(net.parameters(), lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, amsgrad=False)
     criterion = nn.MSELoss() #change this 
-    
-    
-    for epoch in range(2):
+    loss_per_epoch = 0
+    jj=0
+    for epoch in range(3):
         print("\n==============================\n")
         print("Epoch = " + str(epoch))
         for (batch_idx, batch) in enumerate(train_ldr): #mini batch starting iteration
@@ -74,7 +74,10 @@ def main():
             net_out = net(X.float()) #pass input data batch into model (forward()called)
             loss = criterion(net_out,Y.float()) #negative log loss between input/output
             loss.backward() #back propagation 
-            optimizer.step() # gradient decent     
-            print(loss)            
+            optimizer.step() # gradient decent 
+            loss_per_epoch +=loss.item()
+            jj+=1
+            loss_per_epoch = loss_per_epoch/jj
+            print(loss_per_epoch)            
 main()
             
