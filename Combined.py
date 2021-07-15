@@ -29,7 +29,6 @@ class Net(nn.Module):
 
   #create instance of the network
 
-
 # how the data is understood, what is what in the files
 class VolFracDataset(T.utils.data.Dataset):
     def __init__(self, src_file):
@@ -65,8 +64,8 @@ def main():
     loss_per_epoch = 0
     jj=0
     for epoch in range(3):
-        print("\n==============================\n")
-        print("Epoch = " + str(epoch))
+        # print("\n==============================\n")
+        # print("Epoch = " + str(epoch))
         for (batch_idx, batch) in enumerate(train_ldr): #mini batch starting iteration
             print("\nBatch = " + str(batch_idx))
             X = batch['f'] #inputs
@@ -76,9 +75,12 @@ def main():
             loss = criterion(net_out,Y.float()) #negative log loss between input/output
             loss.backward() #back propagation 
             optimizer.step() # gradient decent 
-            loss_per_epoch +=loss.item()
-            jj+=1
-            loss_per_epoch = loss_per_epoch/jj
-            print(loss_per_epoch)            
+        #printing begins
+        for epoch in range(3):
+                loss_per_epoch +=loss.item()
+                jj+=1
+                loss_per_epoch = loss_per_epoch/jj
+                print("Epoch " + str(epoch))
+                print(loss_per_epoch)            
 main()
             
