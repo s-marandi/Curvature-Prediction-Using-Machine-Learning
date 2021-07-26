@@ -90,7 +90,7 @@ def main():
       Y = batch['hk'] #output
       net_out = net(X.float()).reshape(-1) 
       test_loss += criterion(net_out, Y.float())
-      pred = net_out.data.max()
+      pred = net_out.data.max() #needs to be fixed
       correct += pred.eq(Y.float()).sum()
       test_loss /= len(train_ldr.dataset)
       print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
