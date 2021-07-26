@@ -9,7 +9,6 @@ import torch as T
 import torch.nn as nn
 import torch.nn.functional as F
 
-
 device = T.device("cpu")
 # connecting the layers of the diagram, connected neural network layer is represented by the nn.Linear object
 class Net(nn.Module):
@@ -55,7 +54,7 @@ def main():
     # File is passed in to be read
     net = Net().float()
     train_file = "learnClean.txt"
-    # # Instantiate the class
+    # Instantiate the class
     train_ds = VolFracDataset(train_file)
     train_ldr = T.utils.data.DataLoader(train_ds, batch_size=256, shuffle=True)
     
@@ -81,21 +80,24 @@ def main():
         loss_per_epoch = loss_per_epoch/jj
         print("Epoch " + str(epoch))       #printing begins
         print(loss_per_epoch)
-        
-    # pass in the test file here
+
+    test_file = "testClean.txt"
+    # Instantiate the class
+    test_ds = VolFracDataset(test_file)
+    test_ldr = T.utils.data.DataLoader(test_ds, batch_size=256, shuffle=True)
     test_loss = 0
     correct = 0
-    for (batch_idx, batch) in enumerate(train_ldr):
+    for (batch_idx, batch) in enumerate(test_ldr):
       X = batch['f'] #inputs
       Y = batch['hk'] #output
       net_out = net(X.float()).reshape(-1) 
       test_loss += criterion(net_out, Y.float())
-      pred = net_out.data.max() #needs to be fixed
+      pred = net_out.max()
       correct += pred.eq(Y.float()).sum()
-      test_loss /= len(train_ldr.dataset)
+      test_loss /= len(test_ldr.dataset)
       print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
-        test_loss, correct, len(train_ldr.dataset),
-        100. * correct / len(train_ldr.dataset)))
+        test_loss, correct, len(test_ldr.dataset),
+        100. * correct / len(test_ldr.dataset)))
 
 main()
             
