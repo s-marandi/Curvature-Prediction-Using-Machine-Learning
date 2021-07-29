@@ -59,6 +59,10 @@ def main():
     train_ds = VolFracDataset(train_file)
     train_ldr = T.utils.data.DataLoader(train_ds, batch_size=256, shuffle=True)
     
+    validate_file = "validateClean.txt"
+    validate_ds = VolFracDataset(validate_file)
+    validate_ldr = T.utils.data.DataLoader(validate_ds, batch_size=256, shuffle=True)
+    
     #set up for the training to create optimizer and a loss function.
     optimizer = torch.optim.Adam(net.parameters(), lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, amsgrad=False)
     criterion = nn.MSELoss() #change this 
@@ -81,20 +85,16 @@ def main():
         loss_per_epoch = loss_per_epoch/jj
         print("Epoch " + str(epoch))       #printing begins
         print(loss_per_epoch)
+        #saving model should be here
+        # Validation process starts here:
         
-#validation process starts here
-    validate_file = "validateClean.txt"
-    validate_ds = VolFracDataset(validate_file)
-    validate_ldr = T.utils.data.DataLoader(validate_ds, batch_size=256, shuffle=True)
-
-    for epoch in range(20):
         loss_per_epoch = 0
         jj=0
         for (batch_idx, batch) in enumerate(validate_ldr): #mini batch starting iteration
         # print("\nBatch = " + str(batch_idx))
             X = batch['f'] #inputs
             Y = batch['hk'] #output
-            optimizer.zero_grad()
+            optimizer.zero_grad()# dont need
             net_out = net(X.float()).reshape(-1) #pass input data batch into model (forward()called)
             loss = criterion(net_out,Y.float()) #negative log loss between input/output 
             loss_per_epoch +=loss.item()
@@ -102,8 +102,8 @@ def main():
         loss_per_epoch = loss_per_epoch/jj
         print("Validate, Epoch " + str(epoch))       #printing begins
         print(loss_per_epoch)
-  
-
+        
+ 
 main()
             
             
