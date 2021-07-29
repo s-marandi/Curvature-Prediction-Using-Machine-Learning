@@ -9,6 +9,7 @@ import torch as T
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 device = T.device("cpu")
 # connecting the layers of the diagram, connected neural network layer is represented by the nn.Linear object
 class Net(nn.Module):
@@ -80,24 +81,29 @@ def main():
         loss_per_epoch = loss_per_epoch/jj
         print("Epoch " + str(epoch))       #printing begins
         print(loss_per_epoch)
+        
+#validation process starts here
+    validate_file = "validateClean.txt"
+    validate_ds = VolFracDataset(validate_file)
+    validate_ldr = T.utils.data.DataLoader(validate_ds, batch_size=256, shuffle=True)
 
-    test_file = "testClean.txt"
-    # Instantiate the class
-    test_ds = VolFracDataset(test_file)
-    test_ldr = T.utils.data.DataLoader(test_ds, batch_size=256, shuffle=True)
-    test_loss = 0
-    correct = 0
-    for (batch_idx, batch) in enumerate(test_ldr):
-      X = batch['f'] #inputs
-      Y = batch['hk'] #output
-      net_out = net(X.float()).reshape(-1) 
-      test_loss += criterion(net_out, Y.float())
-      pred = net_out.max()
-      correct += pred.eq(Y.float()).sum()
-      test_loss /= len(test_ldr.dataset)
-      print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
-        test_loss, correct, len(test_ldr.dataset),
-        100. * correct / len(test_ldr.dataset)))
+    for epoch in range(20):
+        loss_per_epoch = 0
+        jj=0
+        for (batch_idx, batch) in enumerate(validate_ldr): #mini batch starting iteration
+        # print("\nBatch = " + str(batch_idx))
+            X = batch['f'] #inputs
+            Y = batch['hk'] #output
+            optimizer.zero_grad()
+            net_out = net(X.float()).reshape(-1) #pass input data batch into model (forward()called)
+            loss = criterion(net_out,Y.float()) #negative log loss between input/output 
+            loss_per_epoch +=loss.item()
+            jj+=1
+        loss_per_epoch = loss_per_epoch/jj
+        print("Validate, Epoch " + str(epoch))       #printing begins
+        print(loss_per_epoch)
+  
 
 main()
+            
             
