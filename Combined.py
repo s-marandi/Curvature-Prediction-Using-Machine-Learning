@@ -63,10 +63,16 @@ def main():
     validate_ds = VolFracDataset(validate_file)
     validate_ldr = T.utils.data.DataLoader(validate_ds, batch_size=256, shuffle=True)
     
+    test_file = "testClean.txt"
+    # Instantiate the class
+    test_ds = VolFracDataset(test_file)
+    test_ldr = T.utils.data.DataLoader(test_ds, batch_size=256, shuffle=True)
+    test_loss = 0
+
     #set up for the training to create optimizer and a loss function.
     optimizer = torch.optim.Adam(net.parameters(), lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0, amsgrad=False)
     criterion = nn.MSELoss() #change this 
-    for epoch in range(20):
+    for epoch in range(200):
         loss_per_epoch = 0
         jj=0
         # print("\n==============================\n")
@@ -86,6 +92,16 @@ def main():
         print("Epoch " + str(epoch))       #printing begins
         print(loss_per_epoch)
         #saving model should be here
+        #if mod operator (save every 10 epoch)
+        if epoch % 10 == 0: 
+            PATH = "/lustre/smarandi/PythonFile/save_" + str(epoch) + ".pt"
+            torch.save({
+                'epoch': epoch,
+                'model_state_dict': net.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'loss': loss_per_epoch,
+                }, PATH)
+        
         # Validation process starts here:
         
         loss_per_epoch = 0
@@ -102,6 +118,17 @@ def main():
         loss_per_epoch = loss_per_epoch/jj
         print("Validate, Epoch " + str(epoch))       #printing begins
         print(loss_per_epoch)
+        
+        
+    #testing loop
+    for (batch_idx, batch) in enumerate(test_ldr):
+          X = batch['f'] #inputs
+          Y = batch['hk'] #output
+          net_out = net(X.float()).reshape(-1) 
+          test_loss += criterion(net_out, Y.float())
+    test_loss /= len(test_ldr.dataset)
+    print("Epoch Testing")
+    print(test_loss)
         
  
 main()
