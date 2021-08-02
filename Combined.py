@@ -110,7 +110,6 @@ def main():
         # print("\nBatch = " + str(batch_idx))
             X = batch['f'] #inputs
             Y = batch['hk'] #output
-            optimizer.zero_grad()# dont need
             net_out = net(X.float()).reshape(-1) #pass input data batch into model (forward()called)
             loss = criterion(net_out,Y.float()) #negative log loss between input/output 
             loss_per_epoch +=loss.item()
