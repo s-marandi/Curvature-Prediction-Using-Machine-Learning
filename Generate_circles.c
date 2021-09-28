@@ -31,6 +31,7 @@ int main() {
 FILE *myFile;
 myFile = fopen("radii.txt", "r");
 
+	
 double numbers[65];
 int i;
 
