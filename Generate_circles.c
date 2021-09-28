@@ -4,6 +4,9 @@
 #include "reduced.h"
 #include <stdio.h>
 
+/*
+This file is used to initialize the circles of radii`s (R0) which were read from a file and generates the volume fractions
+*/
 
 int gminlevel = 6;
 int gmaxlevel = 9;
