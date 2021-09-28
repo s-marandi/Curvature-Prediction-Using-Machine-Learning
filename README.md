@@ -1,5 +1,5 @@
 # Curvature Prediction Using Machine Learning
-Mentors: Dr. Rahul Babu Koneru, Dr. Bhargav Sriram Siddani
+Mentors: Dr. Rahul Babu Koneru, Dr. Bhargav Sriram Siddani,
 Undergraduate Researcher: Saman Marandi
 
   Aircrafts operating in dusty environments suffer from structural damage to the gas turbine engine (GTE) components due to the ingestion of sand and other particulate matter. This leads to higher operational costs and in some tragic cases, loss of life. Particulate separators at the intake keep out particles larger than 80 µm in diameter from entering the hot-section of the GTE. Smaller particles which pass through, melt in the combustor and cause structural damage to the thermal barrier coatings (TBCs) which offer protection against high thermal loads on the gas turbine blades. The molten sand particles, which are a mixture of Calcium, Magnesium, Aluminum, Silica oxides along with trace amounts of other compounds and are referred to as CMAS. The molten CMAS deposits, chemically reacts and eventually infiltrates the TBC leading to altering the thermal properties of the TBC and thus reducing its life. 
